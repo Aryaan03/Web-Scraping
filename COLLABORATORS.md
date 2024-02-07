@@ -1,0 +1,2 @@
+Pipenv: Python Dev Workflow for Humans | https://pipenv.pypa.io/en/latest/ | helped me in Installing Pipenv
+Extract Text from a PDF | https://pypdf.readthedocs.io/en/latest/user/extract-text.html | helped me in extracting text in a fixed width format and changing columns
