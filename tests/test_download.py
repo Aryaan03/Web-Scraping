@@ -1,132 +1,130 @@
-import io
-import sys
 import unittest
+import io
+import assignment0.main as assignment0
+import sys
 from unittest.mock import Mock, patch
-import assignment0.main 
 
-class TestRetInc(unittest.TestCase):
+## Import all the necessary libraries
 
+class TestReterieve(unittest.TestCase):
+# Define a test class that inherits from unittest.TestCase
+   
+    # Decorate the test method with patch to mock the 'urllib.request.urlopen' and 'urllib.request.Request' functions
     @patch('urllib.request.urlopen')
     @patch('urllib.request.Request')
-    def TestRetrieveIncidents(self, mock_request, mock_urlopen):
-        # Mock the data returned by urllib.request.urlopen
-        mock_urlopen.return_value.read.return_value = b'Mocked data'
+    def test_Retrieve(me, ask, mdo):
+        mdo.return_value.read.return_value = b'Dummy'
+        # Mock the return value of the read function of the urlopen object
 
-        # Call the fetchIncidents function
-        url = 'https://example.com'
-        result = assignment0.fetchIncidents(url)
+        url = 'https://www.normanok.gov/sites/default/files/documents/2024-02/2024-02-04_daily_incident_summary.pdf'
+        out = assignment0.RetrieveIncidents(url)
 
-        # Check that the urllib.request.Request was called with the correct arguments
-        mock_request.assert_called_once_with(url, headers={'User-Agent': "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17"})
-
-        # Check that urllib.request.urlopen was called with the correct arguments
-        mock_urlopen.assert_called_once_with(mock_request.return_value)
-
-        # Check that the function returns the expected result
-        self.assertEqual(result, b'Mocked data')
+        # Verifying if urlopen was called with the provided URL and headers
+        ask.assert_called_once_with(url, headers={'User-Agent': "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17"})
+        # Verifying if Request was called with the return value of urlopen
+        mdo.assert_called_once_with(ask.return_value)
+     
+        # Verifying if the output matches the expected 'Dummy' content
+        me.assertEqual(out, b'Dummy')
         
     @patch('pypdf.PdfReader')
-    def TestExtractData(self, mock_reader):
-        """Tests if text is extracted correctly from PDF pages."""
-        IncidentData = b'some_pdf_data'  # Sample PDF data
-        expected_text = "\nPage 1 text\nPage 2 text"  # Expected extracted text
+    def test_Extraction(me, check):
+        """Verify whether the text has been accurately extracted from the pages of the PDF document."""
+        # Setting up mocked PDFReader object and its return values for text extraction
+        IncidentData = b'Table Information' 
+        exp = "\nData from 1st Page\nData from 2nd Page"
 
-        # Mock the reader object to return expected page text
-        mock_page1 = unittest.mock.MagicMock()
-        mock_page1.extract_text.return_value = "Page 1 text"
-        mock_page2 = unittest.mock.MagicMock()
-        mock_page2.extract_text.return_value = "Page 2 text"
-        mock_reader.return_value.pages = [mock_page1, mock_page2]
+        Dummy1 = unittest.mock.MagicMock()
+        Dummy1.extract_text.return_value = "Data from 1st Page"
 
-        # Call the extractIncidents function
-        extracted_text = assignment0.extractIncidents(IncidentData)
+        Dummy2 = unittest.mock.MagicMock()
+        Dummy2.extract_text.return_value = "Data from 2nd Page"
 
-        # Assert that the extracted text matches the expected text
-        self.assertEqual(extracted_text, expected_text)
+        check.return_value.pages = [Dummy1, Dummy2]
+        
+        # Calling ExtractData and comparing the output with expected text
+        og = assignment0.ExractData(IncidentData)
+        me.assertEqual(og, exp)
     
     @patch('sqlite3.connect')
-    def TestCreateDB(self, mock_connect):
-        #Tests if the database and table are created successfully using mocking.
+    def test_Create(me, dum):
+
+        # Testing the creation of a database table
         Norman= 'test_database.db'
         Tab = 'test_table'
+        Header = 'incident_time TEXT, incident_number TEXT, incident_location TEXT, nature TEXT, incident_ori TEXT'
 
-        # Call the function to create the database and table
-        assignment0.createdb(Norman, Tab)
+        assignment0.CreateDB(Norman, Tab, Header)
 
-        # Verify that sqlite3.connect was called with the correct arguments
-        mock_connect.assert_called_once_with(Norman)
+        # Verifying if the connection to the database was established
+        dum.assert_called_once_with(Norman)
 
-        # Access the mock connection and cursor objects
-        mock_con = mock_connect.return_value
-        mock_cur = mock_con.cursor.return_value
+        # Verifying if table creation and dropping statements were executed
+        lat = dum.return_value
+        look = lat.cursor.return_value
 
-        # Check if the expected SQL queries were executed
-        mock_cur.execute.assert_has_calls([
-            unittest.mock.call("DROP TABLE IF EXISTS {};".format(Norman)),
-            unittest.mock.call("CREATE TABLE {} (incident_time TEXT, incident_number TEXT, incident_location TEXT, nature TEXT, incident_ori TEXT);".format(Norman))
+        # Assert that table creation SQL commands are executed
+        look.execute.assert_has_calls([
+            unittest.mock.call("DROP TABLE IF EXISTS {};".format(Tab)),
+            unittest.mock.call("CREATE TABLE {} (incident_time TEXT, incident_number TEXT, incident_location TEXT, nature TEXT, incident_ori TEXT);".format(Tab))
         ])
 
-        # Check if commit and close methods were called
-        mock_con.commit.assert_called_once()
-        mock_con.close.assert_called_once()
+        # Assert that changes are committed and connection is closed
+        lat.commit.assert_called_once()
+        lat.close.assert_called_once()
         
     @patch('sqlite3.connect')
-    def TestPopulateDB(self, mock_connect):
-        #Testing to see if data is inserted correctly
-        Norman = 'test_database.db'
-        Tab = 'test_table'
+    def test_Populate(self, dum):
+        Norman = 'checkdb.db'
+        Tab = 'checktab'
+        # Data to be inserted into the database
         Line = [
-            ['incident_time1', 'incident_number1', 'incident_location1', 'nature1', 'incident_ori1'],
-            ['incident_time2', 'incident_number2', 'incident_location2'],  # Instance with empty nature
-            ['incident_time3', 'incident_number3', 'incident_location3', 'nature3', 'incident_ori3']
+            ['incident_time56', 'incident_number56', 'incident_location56', 'nature56', 'incident_ori56'],
+            ['incident_time78', 'incident_number78', 'incident_location78', 'nature78', 'incident_ori78']
         ]
 
-        # Call the function to populate the database
-        assignment0.populatedb(Norman, Tab, Line)
+        assignment0.PopulateDB(Norman, Tab, Line)
 
-        # Access the mock connection and cursor objects
-        mock_con = mock_connect.return_value
-        mock_cur = mock_con.cursor.return_value
+        lat = dum.return_value
+        # Get the cursor object from the database connection
+        look = lat.cursor.return_value
 
-        # Check if the expected SQL queries were executed
-        expected_calls = [
-            unittest.mock.call("INSERT INTO {} VALUES (?, ?, ?, ?, ?);".format(Norman), Line[0]),
-            unittest.mock.call("INSERT INTO {} VALUES (?, ?, ?, ?, ?);".format(Norman), ['', '', '', '', '']),  # Padding for shorter line
-            unittest.mock.call("INSERT INTO {} VALUES (?, ?, ?, ?, ?);".format(Norman), Line[2])
+        # Assert that insertion SQL commands are executed for each data row
+        exp = [
+            unittest.mock.call("INSERT INTO {} VALUES (?, ?, ?, ?, ?);".format(Tab), Line[0]),
+            unittest.mock.call("INSERT INTO {} VALUES (?, ?, ?, ?, ?);".format(Tab), Line[1])
         ]
-        mock_cur.execute.assert_has_calls(expected_calls)
+        look.execute.assert_has_calls(exp)
 
-        # Check if commit and close methods were called
-        mock_con.commit.assert_called_once()
-        mock_con.close.assert_called_once()
+        # Assert that changes are committed and connection is closed
+        lat.commit.assert_called_once()
+        lat.close.assert_called_once()
         
     @patch('sqlite3.connect')
-    def TestStatus(self, mock_connect):
-        """Tests if the status function prints the correct nature and count."""
-        Norman = 'test_database.db'
-        Tab = 'test_table'
+    def test_Status(me, dum):
+        """Verify if the status function accurately displays the appropriate nature and count."""
+        Norman = 'checkdb.db'
+        Tab = 'checktab'
+        # Sample output data from the database
+        out = [('nature8', 89), ('nature45', 56)]
 
-        # Mock the results to be returned by the cursor
-        mock_results = [('nature1', 3), ('', 2), ('nature3', 1)]
-        mock_cur = mock_connect.return_value.cursor.return_value
-        mock_cur.fetchall.return_value = mock_results
+        lat = dum.return_value.cursor.return_value # Get the cursor object from the database connection
+        lat.fetchall.return_value = out # Mock the fetchall method to return sample output data
 
-        # Capture the printed output
-        captured_output = io.StringIO()
-        sys.stdout = captured_output
+        # Redirect stdout to capture print output
+        og = io.StringIO()
+        sys.stdout = og
 
-        # Call the status function
-        assignment0.status(Norman, Tab)
+        # Call the function under test
+        assignment0.Status(Norman, Tab)
 
-        # Restore the standard output
-        sys.stdout = sys._stdout_
+        sys.stdout = sys.__stdout__
 
-        # Assert the printed output
-        expected_output = "nature1|3\n|2\nnature3|1\n"
-        self.assertEqual(captured_output.getvalue(), expected_output)
+        look = "nature8|89\nnature45|56\n"
+
+        # Assert that the printed output matches the expected output
+        me.assertEqual(og.getvalue(), look)
         
-        
 
-
-if __name__ == '_main_':
+if __name__ == '__main__':
     unittest.main()
