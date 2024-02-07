@@ -22,7 +22,7 @@ The video is attached in the the repository
 
 ## Functions
 #### main.py \
-1. RetrieveIncidents(`url`)
+1. `RetrieveIncidents(url)`
     • Description: 
         - Downloads/Fetches incident data from a given URL.
         - The `urllib.request` module is used to execute an HTTP request and retrieve the data.
@@ -33,7 +33,7 @@ The video is attached in the the repository
     • Returns:
         - The fetched incident data.
 
-2. ExtractData(`IncidentData`)
+2. `ExtractData(IncidentData)`
     • Description: 
         - This function extracts incident information from the incident PDF file.
         - Reads the incident data from a PDF using `pypdf.PdfReader` and `io.BytesIO`.
