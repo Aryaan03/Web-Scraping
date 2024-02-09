@@ -99,7 +99,7 @@ def Status(Norman, Tab):
     
      # SQL query to select nature and count of incidents grouped by nature
     Qur = """
-        SELECT Nature, COUNT(*) AS IncidentCount FROM {} GROUP BY Nature ORDER BY CASE WHEN Nature = '' THEN 1 ELSE 0 END,  IncidentCount DESC, Nature""".format(Tab)
+        SELECT Nature, COUNT(*) AS IncidentCount FROM {} GROUP BY Nature ORDER BY IncidentCount DESC, Nature""".format(Tab)
     
     # Execute the SQL query
     cur.execute(Qur)
