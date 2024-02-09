@@ -1,114 +1,130 @@
 # cis6930sp24 -- Assignment0
 
-Name: Aryaan Shaikh
+Name: Aryaan Shaikh <br>
 Student ID: 3020-2476
 
-# Assignment Descriptiom
-This main aim of ths assignment is to practice extracting data from an online source, reformatting the data, and working with Python3, SQL, regular expressions, and Linux command-line tools. Specifically, the task involves extracting incident data from PDF files provided by the Norman, Oklahoma police department's website, formatting it, storing it in an SQLite database, and analyzing the data. This is a great assignment to kick start our Data Engineering course and was helped us learn more about extracting, loading and formatting of data.
+## Contact
 
-# How to install
+Email - am.shaikh@ufl.edu <br>
+Project Link: https://github.com/Aryaan03/cis6930sp24-assignment0
+
+
+## Assignment Description
+This is the 1st project assignment for the CIS6930 Data Engineering course. The main aim of this assignment is to practice precise extraction of data from an online source, reformatting it, store it in a SQLite database. The expected outcome of this assignment is printing a list with a selected columunar entity along with the number of times the entity has occured in the source document. More specifically, this assignment involves extracting incident data from PDF files provided by the Norman, Oklahoma police department's [website](https://www.normanok.gov/public-safety/police-department/crime-prevention-data/department-activity-reports). The incident data like Date/Time, Incident Number, Location, Nature, Incident ORI should be extracted from the pdf file and stored into a SQLite database according to their respective fields. Resulting output, the list of all the data in the 'Nature' (Fight, Stroke, Hit and Run, etc) should be sorted by the total number of incidents and printed in alphabetical order along with the number of times it has happened separated by the pipe character. (example: Fight|7). <br>
+
+This assignment underscores the importance of data extraction in the data engineering domain, as it lays the groundwork for understanding how to manipulate and organize raw data for analysis and interpretation. By categorizing incidents, students gain insight into how data can be structured and utilized effectively. This assignment serves as a foundational step toward mastering the multifaceted skills essential in data engineering, encompassing data collection, validation, storage, security, and processing to ensure data accessibility, reliability, and timeliness for end-users. To Conclude, this is a great assignment to kick start our Data Engineering course and has helped us to learn more about extracting, loading and formatting of data.<br>
+
+## How to install
+```
 pipenv install 
+```
 
 ## How to run
 Project can be run by using any of the given commands:
+```
+pipenv run python assignment0/main.py --incidents "<url>"
+```
+```
+python assignment0/main.py --incidents "<url>"
+```
 
-1) pipenv run python assignment0/main.py --incidents <url>
-2) python assignment0/main.py --incidents <url>
+## Demo Implementation 
 
-
-![video] 
-(DE-A0.gif)
-The video is attached in the the repository
+video link: [Data Engineering Assignment0 demo](https://github.com/Aryaan03/cis6930sp24-assignment0/blob/main/DE-A0_demo.mp4) <br>
+![](https://github.com/Aryaan03/cis6930sp24-assignment0/blob/main/DE-A0_demo.gif)
+The video is also available in the the repository.
 
 ## Functions
-#### main.py \
-1. `RetrieveIncidents(url)`
-    • Description: 
-        - Downloads/Fetches incident data from a given URL.
-        - The `urllib.request` module is used to execute an HTTP request and retrieve the data.
-        - Data is stored locally and not at any specific location for  making a SQL database and also retreiving data.
-        - Constructs a request with a custom user agent to access the provided URL.
-    • Parameters: 
-        - `url`(str), The URL from which the incident data is to be fetched.
-    • Returns:
-        - The fetched incident data.
+#### main file
+1. `RetrieveIncidents(url)`<br>
+    • Description: <br>
+        &emsp;- Downloads/Fetches incident data from a given URL.<br>
+        &emsp;- The `urllib.request` module is used to execute an HTTP request and retrieve the data.<br>
+        &emsp;- Data is stored locally and not at any specific location for  making a SQL database and also retreiving data.<br>
+        &emsp;- Constructs a request with a custom user agent to access the provided URL.<br>
+    • Parameters: <br>
+        &emsp;- `url`(str), The URL from which the incident data is to be fetched.<br>
+    • Returns:<br>
+        &emsp;- The fetched incident data.<br>
 
-2. `ExtractData(IncidentData)`
-    • Description: 
-        - This function extracts incident information from the incident PDF file.
-        - Reads the incident data from a PDF using `pypdf.PdfReader` and `io.BytesIO`.
-        - Extracts text from each page of the PDF and concatenates it into a single string.
-    • Parameters: 
-        - `IncidentData`(bytes), The incident data in PDF format.
-    • Returns:
-        - The extracted text from the incident data PDF.
+2. `ExtractData(IncidentData)`<br>
+    • Description: <br>
+        &emsp;- This function extracts incident information from the incident PDF file.<br>
+        &emsp;- Reads the incident data from a PDF using `pypdf.PdfReader` and `io.BytesIO`.<br>
+        &emsp;- Extracts text from each page of the PDF and concatenates it into a single string.<br>
+    • Parameters: <br>
+        &emsp;- `IncidentData`(bytes), The incident data in PDF format.<br>
+    • Returns:<br>
+        &emsp;- The extracted text from the incident data PDF.<br>
 
-3. `CreateDB(Normanpd, Tab, Header)`
-    • Description: 
-        - This function creates a new SQLite database and a table based on the provided parameters using the `sqlite3` module.
-        - It will Create an SQLite table named "Tab" with specific columns for incident details like time, number, location, nature, and origin.
-        - It Drops the table if it already exists and Creates a new table with the schema based on the provided header information.
-    • Parameters: 
-        - `Normanpd`(str); The name of the SQLite database file.
-        - `Tab`(str); The name of the table to be created.
-        - `Header`(list); The header information for the table.
-    • Returns:
-        - None
+3. `CreateDB(Normanpd, Tab, Header)`<br>
+    • Description: <br>
+        &emsp;- This function creates a new SQLite database and a table based on the provided parameters using the `sqlite3` module.<br>
+        &emsp;- It will Create an SQLite table named "Tab" with specific columns for incident details like time, number, location, nature, and origin.<br>
+        &emsp;- It Drops the table if it already exists and Creates a new table with the schema based on the provided header information.<br>
+    • Parameters: <br>
+        &emsp;- `Normanpd`(str); The name of the SQLite database file.<br>
+        &emsp;- `Tab`(str); The name of the table to be created.<br>
+        &emsp;- `Header`(list); The header information for the table.<br>
+    • Returns:<br>
+        &emsp;- None<br>
 
-4. `PopulateDB(Normanpd, Tab, Con)`
-    • Description: 
-        - This function populates the SQLite database with the provided data using the `sqlite3` module.
-        - Constructs an SQL query to insert the provided data into the specified table.
-        - Executes the query for each set of data to be inserted into the table.
-    • Parameters: 
-        - `Normanpd`(str); The name of the SQLite database file.
-        - `Tab`(str); The name of the table to be created.
-        - `Header`(list); The data to be inserted into the table.
-    • Returns:
-        - None
+4. `PopulateDB(Normanpd, Tab, Con)`<br>
+    • Description: <br>
+        &emsp;- This function populates the SQLite database with the provided data using the `sqlite3` module.<br>
+        &emsp;- Constructs an SQL query to insert the provided data into the specified table.<br>
+        &emsp;- Executes the query for each set of data to be inserted into the table.<br>
+    • Parameters: <br>
+        &emsp;- `Normanpd`(str); The name of the SQLite database file.<br>
+        &emsp;- `Tab`(str); The name of the table to be created.<br>
+        &emsp;- `Header`(list); The data to be inserted into the table.<br>
+    • Returns:<br>
+        &emsp;- None<br>
 
-5. `Insert(Information)`
-    • Description: 
-        - This function Inserts incident information into the database.
-        - Handles cases where incomplete or erroneous data is encountered.
-    • Parameters: 
-        - `Information` (list); List of incident information.
-    • Returns:
-        - The filtered and inserted information.
+5. `Insert(Information)`<br>
+    • Description: <br>
+        &emsp;- This function Inserts incident information into the database.<br>
+    • Parameters: <br>
+        &emsp;- `Information` (list); List of incident information.<br>
+    • Returns:<br>
+        &emsp;- The filtered and inserted information.<br>
 
-6. `Status(Normanpd, Tab)`:
-    • Description: 
-        - This function retrieves and displays the status of incidents in the database using SQL queries and the `sqlite3` module.
-        - Retrieves and prints a list of incidents and their occurrence count, sorted alphabetically by nature, from the specified database table.
-    • Parameters: 
-        - `Normanpd`(str); The name of the SQLite database file.
-        - `Tab`(str); The name of the table to be created.
-    • Returns:
-        - None
+6. `Status(Normanpd, Tab)`<br>
+    • Description: <br>
+        &emsp;- This function retrieves and displays the status of incidents in the database using SQL queries and the `sqlite3` module.<br>
+        &emsp;- Retrieves and prints a list of incidents and their occurrence count, sorted alphabetically by nature, from the specified database table.<br>
+    • Parameters: <br>
+        &emsp;- `Normanpd`(str); The name of the SQLite database file.<br>
+        &emsp;- `Tab`(str); The name of the table to be created.<br>
+    • Returns:<br>
+        &emsp;- None<br>
+        
+7. `Calculate(Normanpd, Tab)`:<br>
+    • Description: <br>
+       &emsp;- This function cexecutes an SQL query to count the number of entries in the specified database table and returns the count.<br>
+       &emsp;- This function also displays all the rows in the incident table by executing a SQL query using the `sqlite3` module.<br>
+       &emsp;- It retrieves and prints all rows from the specified database table. <br>
+    • Parameters: <br>
+       &emsp;- `Normanpd`(str); The name of the SQLite database file.<br>
+       &emsp;- `Tab`(str); The name of the table to be created.<br>
+    • Returns:<br>
+       &emsp;- `Count`(int); The number of entries in the incident table.<br>
 
-7. `Calculate(Normanpd, Tab)`:
-    • Description: 
-        - This function cexecutes an SQL query to count the number of entries in the specified database table and returns the count.
-        - This function also displays all the rows in the incident table by executing a SQL query using the `sqlite3` module.
-        - It retrieves and prints all rows from the specified database table.
-    • Parameters: 
-        - `Normanpd`(str); The name of the SQLite database file.
-        - `Tab`(str); The name of the table to be created.
-    • Returns:
-        - `Count`(int); The number of entries in the incident table.
-
-8. `main(url)`:
-    • Description: 
-        - Invokes all other functions
-        - Calls the `RetrieveIncidents(url)` function to download incident data from the provided URL.
-        - Calls the `ExtractData()` function to extract text from the downloaded incident data PDF.
-        - Parses the extracted text to obtain relevant information such as incident time, number, location, nature, and origin.
-        - Creates a new SQLite database using the `CreateDB` function Populates the database with the parsed information using the `PopulateDB` function.
-        - Calls the `Status` function to retrieve and display the status of incidents in the populated database.
-        - Defines a command-line interface using `argparse`.
-        - Parses the command-line arguments, specifically the `--incidents` argument for the URL.
-    • Parameters: 
-        - `url`(str); The URL from which the incident data is to be fetched.
+8. `main(url)`:<br>
+    • Description: <br>
+        &emsp; - Invokes all other functions. <br>
+        &emsp;- Calls the `RetrieveIncidents(url)` function to download incident data from the provided URL.<br>
+        &emsp;- Calls the `ExtractData()` function to extract text from the downloaded incident data PDF.<br>
+        &emsp;- Parses the extracted text to obtain relevant information such as incident time, number, location, nature, and origin. <br>
+        &emsp;- Creates a new SQLite database using the `CreateDB` function Populates the database with the parsed information using the `PopulateDB` function.<br>
+        &emsp;- Calls the `Status` function to retrieve and display the status of incidents in the populated database.<br>
+        &emsp;- Defines a command-line interface using `argparse`.<br>
+        &emsp;- Parses the command-line arguments, specifically the `--incidents` argument for the URL.<br>
+    • Parameters:<br>
+        &emsp; - `url`(str); The URL from which the incident data is to be fetched.<br>
+    • Returns:<br>
+         &emsp; - List of Nature of incidents along with the number of times it happended long with the number of times it has happened separated by the pipe character
+        
    
 ## Database Development
 
@@ -152,9 +168,9 @@ Below is a breif overiew on how to estabish connection, take data, make table, i
 
     - Finally, if the "incidents" table already exists, execute an SQL statement to drop it, preventing conflicts when creating a new table.
 
-### Testings
+## Testings
 
-Testing is done to make sure that aal the functions are working soley and properly.
+Testing is done to make sure that all the functions are working soley and properly.
 
     1. `test_Retrieve`:
         - Utilizes mocking to validate individual functions.
@@ -183,7 +199,24 @@ Testing is done to make sure that aal the functions are working soley and proper
         - Captures printed output of the status function.
         - Compares captured output to expected string, verifying correct output generation using mocked data.
 
-#### Bugs and Assumptions
-...
+## Bugs and Assumptions
 
-1. There should be some entry in atleast one column of the every row.
+• The structure of the PDF files will remain consistent.<br>
+• There should be some entry in atleast one column of the every row.<br>
+• All fields, excluding the 'Nature' field will consist of alphanumeric characters.<br>
+
+## Version History
+
+• 0.1 <br>
+   &emsp;&emsp; -> Initial Release
+
+## License
+
+This project is licensed by Aryaan Shaikh©2024.
+
+## Acknowledgments
+
+• [Christan Grant](https://github.com/cegme)- Providing the problem Statement <br>
+• [Yifan Wang](https://github.com/wyfunique)- Testing our code<br>
+• [Pipenv: Python Dev Workflow for Humans](https://pipenv.pypa.io/en/latest/)- Helped me in Installing Pipenv <br>
+• [Extract Text from a PDF](https://pypdf.readthedocs.io/en/latest/user/extract-text.html)- Helped me in extracting text in a fixed width format and changing columns <br>
