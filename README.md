@@ -1,4 +1,4 @@
-# cis6930sp24 -- Assignment0
+# CIS6930sp24 -- Assignment0
 
 Name: Aryaan Shaikh <br>
 Student ID: 3020-2476
@@ -10,7 +10,7 @@ Project Link: https://github.com/Aryaan03/cis6930sp24-assignment0
 
 
 ## Assignment Description
-This is the 1st project assignment for the CIS6930 Data Engineering course. The main aim of this assignment is to practice precise extraction of data from an online source, reformatting it, store it in a SQLite database. The expected outcome of this assignment is printing a list with a selected columunar entity along with the number of times the entity has occured in the source document. More specifically, this assignment involves extracting incident data from PDF files provided by the Norman, Oklahoma police department's [website](https://www.normanok.gov/public-safety/police-department/crime-prevention-data/department-activity-reports). The incident data like Date/Time, Incident Number, Location, Nature, Incident ORI should be extracted from the pdf file and stored into a SQLite database according to their respective fields. Resulting output, the list of all the data in the 'Nature' (Fight, Stroke, Hit and Run, etc) should be sorted by the total number of incidents and printed in alphabetical order along with the number of times it has happened separated by the pipe character. (example: Fight|7). <br>
+This is the 1st project assignment for the CIS6930 Data Engineering course. The main aim of this assignment is to practice precise extraction of data from an online source, reformatting it, store it in a SQLite database. The expected outcome of this assignment is printing a list with a selected columnar entity along with the number of times the entity has occurred in the source document. More specifically, this assignment involves extracting incident data from PDF files provided by the Norman, Oklahoma police department's [website](https://www.normanok.gov/public-safety/police-department/crime-prevention-data/department-activity-reports). The incident data like Date/Time, Incident Number, Location, Nature, Incident ORI should be extracted from the pdf file and stored into a SQLite database according to their respective fields. Resulting output, the list of all the data in the 'Nature' (Fight, Stroke, Hit and Run, etc) should be sorted by the total number of incidents and printed in alphabetical order along with the number of times it has happened separated by the pipe character. (example: Fight|7). <br>
 
 This assignment underscores the importance of data extraction in the data engineering domain, as it lays the groundwork for understanding how to manipulate and organize raw data for analysis and interpretation. By categorizing incidents, students gain insight into how data can be structured and utilized effectively. This assignment serves as a foundational step toward mastering the multifaceted skills essential in data engineering, encompassing data collection, validation, storage, security, and processing to ensure data accessibility, reliability, and timeliness for end-users. To Conclude, this is a great assignment to kick start our Data Engineering course and has helped us to learn more about extracting, loading and formatting of data.<br>
 
@@ -32,7 +32,7 @@ python assignment0/main.py --incidents "<url>"
 
 video link: [Data Engineering Assignment0 demo](https://github.com/Aryaan03/cis6930sp24-assignment0/blob/main/DE-A0_demo.mp4) <br>
 ![](https://github.com/Aryaan03/cis6930sp24-assignment0/blob/main/DE-A0_demo.gif)
-The video is also available in the the repository.
+The video is also available in the repository.
 
 ## Functions
 #### main file
@@ -60,7 +60,7 @@ The video is also available in the the repository.
 3. `CreateDB(Normanpd, Tab, Header)`<br>
     • Description: <br>
         &emsp;- This function creates a new SQLite database and a table based on the provided parameters using the `sqlite3` module.<br>
-        &emsp;- It will Create an SQLite table named "Tab" with specific columns for incident details like time, number, location, nature, and origin.<br>
+        &emsp;- It will create an SQLite table named "Tab" with specific columns for incident details like time, number, location, nature, and origin.<br>
         &emsp;- It Drops the table if it already exists and Creates a new table with the schema based on the provided header information.<br>
     • Parameters: <br>
         &emsp;- `Normanpd`(str); The name of the SQLite database file.<br>
@@ -101,7 +101,7 @@ The video is also available in the the repository.
         
 7. `Calculate(Normanpd, Tab)`:<br>
     • Description: <br>
-       &emsp;- This function cexecutes an SQL query to count the number of entries in the specified database table and returns the count.<br>
+       &emsp;- This function executes an SQL query to count the number of entries in the specified database table and returns the count.<br>
        &emsp;- This function also displays all the rows in the incident table by executing a SQL query using the `sqlite3` module.<br>
        &emsp;- It retrieves and prints all rows from the specified database table. <br>
     • Parameters: <br>
@@ -123,7 +123,7 @@ The video is also available in the the repository.
     • Parameters:<br>
         &emsp; - `url`(str); The URL from which the incident data is to be fetched.<br>
     • Returns:<br>
-         &emsp; - List of Nature of incidents along with the number of times it happended long with the number of times it has happened separated by the pipe character
+         &emsp; - List of Nature of incidents along with the number of times it occurred long with the number of times it has happened separated by the pipe character
         
    
 ## Database Development
@@ -136,46 +136,47 @@ The video is also available in the the repository.
     2. Connect to the Database (`CreateDB()`):
         - Establish a connection to an SQLite database named "normanpd.db" using the `sqlite3` module.
         - Create a cursor to interact with the database.
-        - Queries are used to execute SQL statements for creating table and headers.
 
-    3. Data Population(`PopulatedDB()`:
+    3. Data Population(`PopulatedDB()` and `Insert()`:
         - The extracted incident data is inserted into the SQLite database usind `PopulatedDB()` function.
+        - Queries are used to execute SQL statements for creating table and headers.
         - For insertion INSERT statement is used.
+        - Implementing the INSERT command using the cursor.
         - Each row of incident data corresponds to an entry in the database table.
 
-    4. Data Analysis:
+    4. Data Status and Printing:
         - The script provides functionality to query the database for statistical analysis of incident data.
-        - Users can retrieve counts of incidents based on their nature.
-
+        - Running an SQL query to obtain the number of incidents categorized by nature from the 'incidents' table. 
+        - Ordering results by count (descending) and then by alphabetically by nature.   
+        - Display type of nature of incident along with their respective counts seperated by a pipe '|' symbol. 
+        
     5. Command-line Interface:
         - The script can be executed from the command line.
         - Users provide the URL of the incident summary PDF file as a command-line argument.
+  
+    6. Delete and Create new table
+        - Run an SQL command to delete the 'incidents' table if it's already exists and create a new table
         
 
-Below is a breif overiew on how to estabish connection, take data, make table, insert, query and close the connection to database:
+Below is a brief overview on how to establish connection, take data, make table, insert, query and close the connection to database:
         
-    - Begin by establishing a connection to the "normanpd.db" SQLite database using the sqlite3 module and create a cursor to interact with it.
+    -> Begin by establishing a connection to the "normanpd.db" SQLite database using the sqlite3 module and create a cursor to interact with it.
+    -> Next, craft an SQL statement to generate a table named "incidents" within the database, outlining the columns like incident_time, incident_number, incident_location, nature, and incident_ori, assigning suitable data types to each, such as TEXT.
+    -> Proceed to populate the "incidents" table by iterating through each incident entry in the extracted data. For each entry, formulate an SQL INSERT statement to add the data into the table, executing it with the cursor, and confirming the changes.
+    -> Utilize an SQL query to gather the incident count grouped by nature from the "incidents" table. Arrange the results by count in descending order and then alphabetically by nature.
+    -> Display the sorted incident data in the format "nature | count," providing a clear overview of the incident nature alongside the corresponding count.
+    -> Retrieve all incident data by executing an SQL query to fetch all information from the "incidents" table, returning a list of tuples representing each incident.
+    -> Finally, if the "incidents" table already exists, execute an SQL statement to drop it, preventing conflicts when creating a new table.
 
-    - Next, craft an SQL statement to generate a table named "incidents" within the database, outlining the columns like incident_time, incident_number, incident_location, nature, and incident_ori, assigning suitable data types to each, such as TEXT.
+## Testing
 
-    - Proceed to populate the "incidents" table by iterating through each incident entry in the extracted data. For each entry, formulate an SQL INSERT statement to add the data into the table, executing it with the cursor, and confirming the changes.
+Testing is done to make sure that all the functions are working independently and properly. Testing is crucial for early bug detection and maintaining code quality. Testing units of code encourages modular, understandable code and integrates seamlessly into continuous integration workflows, boosting integrity. Ultimately, all major functions like Retrieve, ExtractData, CreateDB and more are tested if they are functioning properly. For example. test_create verifies if a database and table is created or not.
 
-    - Utilize an SQL query to gather the incident count grouped by nature from the "incidents" table. Arrange the results by count in descending order and then alphabetically by nature.
-
-    - Display the sorted incident data in the format "nature | count," providing a clear overview of the incident nature alongside the corresponding count.
-
-    - Retrieve all incident data by executing an SQL query to fetch all information from the "incidents" table, returning a list of tuples representing each incident.
-
-    - Finally, if the "incidents" table already exists, execute an SQL statement to drop it, preventing conflicts when creating a new table.
-
-## Testings
-
-Testing is done to make sure that all the functions are working soley and properly.
 
     1. `test_Retrieve`:
         - Utilizes mocking to validate individual functions.
         - Uses mock versions of urllib.request.urlopen to simulate fetching data from a URL.
-        - Mock data (b'Some mock data') is provided instead of actual network requests.
+        - Mock data ('Some mock data') is provided instead of actual network requests.
         - The URL variable serves as input for testing the fetchIncidents function.
 
     2. `test_Extraction`:
@@ -201,9 +202,12 @@ Testing is done to make sure that all the functions are working soley and proper
 
 ## Bugs and Assumptions
 
-• The structure of the PDF files will remain consistent.<br>
+• Assuming that the structure of the PDF files provided by the Norman, Oklahoma police department remains consistent across different reports. If the structure changes, it could break the extraction process. <br>
+• Large PDF files or a high volume of data may exceed system memory or processing limits, leading to performance degradation or application crashes.<br>
 • There should be some entry in atleast one column of the every row.<br>
 • All fields, excluding the 'Nature' field will consist of alphanumeric characters.<br>
+• No bugs were able to be identified after testing.
+
 
 ## Version History
 
