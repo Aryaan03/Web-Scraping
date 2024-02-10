@@ -10,7 +10,7 @@ Project Link: https://github.com/Aryaan03/cis6930sp24-assignment0
 
 
 ## Assignment Description
-This is the 1st project assignment for the CIS6930 Data Engineering course. The main aim of this assignment is to practice precise extraction of data from an online source, reformatting it, store it in a SQLite database. The expected outcome of this assignment is printing a list with a selected columnar entity along with the number of times the entity has occurred in the source document. More specifically, this assignment involves extracting incident data from PDF files provided by the Norman, Oklahoma police department's [website](https://www.normanok.gov/public-safety/police-department/crime-prevention-data/department-activity-reports). The incident data like Date/Time, Incident Number, Location, Nature, Incident ORI should be extracted from the pdf file and stored into a SQLite database according to their respective fields. Resulting output, the list of all the data in the 'Nature' (Fight, Stroke, Hit and Run, etc) should be sorted by the total number of incidents and printed in alphabetical order along with the number of times it has happened separated by the pipe character. (example: Hit and Run|7). <br> 
+This is the 1st project assignment for the CIS6930 Data Engineering course. The main aim of this assignment is to practice precise extraction of data from an online source, reformatting it and storing it in a SQLite database. The expected outcome of this assignment is to print a list of incidents with a selected columnar entity from the source document along with the number of times the incident has occurred. More specifically, this assignment involves extracting incident data from PDF files provided by the Norman, Oklahoma police department's webiste [link](https://www.normanok.gov/public-safety/police-department/crime-prevention-data/department-activity-reports). The incident data like Date/Time, Incident Number, Location, Nature, Incident ORI should be extracted from the pdf file and stored into a SQLite database according to their respective fields. Resulting output should be a list of all the incidents in the 'Nature' field (example: Fight, Stroke, Hit and Run, etc) and should be sorted by the total number of incidents (descending) and printed in alphabetical order along with the number of times it has happened separated by the pipe character. (example: Hit and Run|7). <br> 
 
 This assignment underscores the importance of data extraction in the data engineering domain, as it lays the groundwork for understanding how to manipulate and organize raw data for analysis and interpretation. By categorizing incidents, students gain insight into how data can be structured and utilized effectively. This assignment serves as a foundational step toward mastering the multifaceted skills essential in data engineering, encompassing data collection, validation, storage, security, and processing to ensure data accessibility, reliability, and timeliness for end-users. To Conclude, this is a great assignment to kick start our Data Engineering course and has helped us to learn more about extracting, loading and formatting of data.<br>
 
@@ -50,7 +50,7 @@ The video is also available in the repository.
     • Parameters: <br>
         &emsp;- `url`(str), The URL from which the incident data is to be fetched.<br>
     • Returns:<br>
-        &emsp;- The fetched incident data.<br>
+        &emsp;- `data`; The fetched incident data.<br>
 
 2. `ExtractData(IncidentData)`<br>
     • Description: <br>
@@ -60,29 +60,29 @@ The video is also available in the repository.
     • Parameters: <br>
         &emsp;- `IncidentData`(bytes), The incident data in PDF format.<br>
     • Returns:<br>
-        &emsp;- The extracted text from the incident data PDF.<br>
+        &emsp;- `ExtractText`; The extracted text from the incident data PDF.<br>
 
-3. `CreateDB(Normanpd, Tab, Header)`<br>
+3. `CreateDB(Norman, Tab, Header)`<br>
     • Description: <br>
         &emsp;- This function creates a new SQLite database and a table based on the provided parameters using the `sqlite3` module.<br>
         &emsp;- It will create an SQLite table named "Tab" with specific columns for incident details like known previously like time, number, location, nature, and origin.<br>
         &emsp;- It Drops the table if it already exists and Creates a new table with the schema based on the provided header information.<br>
     • Parameters: <br>
-        &emsp;- `Normanpd`(str); The name of the SQLite database file.<br>
+        &emsp;- `Norman`(str); The name of the SQLite database file.<br>
         &emsp;- `Tab`(str); The name of the table to be created.<br>
         &emsp;- `Header`(list); The header information for the table.<br>
     • Returns:<br>
         &emsp;- None<br>
 
-4. `PopulateDB(Normanpd, Tab, Con)`<br>
+4. `PopulateDB(Norman, Tab, Line)`<br>
     • Description: <br>
         &emsp;- This function populates the SQLite database with the provided data using the `sqlite3` module.<br>
         &emsp;- Constructs an SQL query to insert the provided data using the `INSERT` query into the specified table.<br>
         &emsp;- Executes the query for each set of data to be inserted into the table.<br>
     • Parameters: <br>
-        &emsp;- `Normanpd`(str); The name of the SQLite database file.<br>
+        &emsp;- `Norman`(str); The name of the SQLite database file.<br>
         &emsp;- `Tab`(str); The name of the table to be created.<br>
-        &emsp;- `Header`(list); The data to be inserted into the table.<br>
+        &emsp;- `Line`(list); The data to be inserted into the table.<br>
     • Returns:<br>
         &emsp;- None<br>
 
@@ -93,28 +93,28 @@ The video is also available in the repository.
     • Parameters: <br>
         &emsp;- `Information` (list); List of incident information.<br>
     • Returns:<br>
-        &emsp;- The filtered and inserted information.<br>
+        &emsp;- `Latest`(list); The filtered and inserted information.<br>
 
-6. `Status(Normanpd, Tab)`<br>
+6. `Status(Norman, Tab)`<br>
     • Description: <br>
         &emsp;- This function retrieves and displays the status of incidents in the database using SQL queries and the `sqlite3` module.<br>
         &emsp;- It Retrieves and prints a list of incidents and their occurrence count, sorted alphabetically by nature, from the specified database table.<br>
     • Parameters: <br>
-        &emsp;- `Normanpd`(str); The name of the SQLite database file.<br>
+        &emsp;- `Norman`(str); The name of the SQLite database file.<br>
         &emsp;- `Tab`(str); The name of the table to be created.<br>
     • Returns:<br>
         &emsp;- None<br>
         
-7. `Calculate(Normanpd, Tab)`:<br>
+7. `Calculate(Norman, Tab)`:<br>
     • Description: <br>
        &emsp;- This function executes an SQL query to count the number of entries in the specified database table and returns the count.<br>
        &emsp;- This function also iterstes through all the rows and prints it from the incident table by executing a SQL query using the `sqlite3` module.<br>
        &emsp;- It retrieves and prints all rows from the specified database table. <br>
     • Parameters: <br>
-       &emsp;- `Normanpd`(str); The name of the SQLite database file.<br>
+       &emsp;- `Norman`(str); The name of the SQLite database file.<br>
        &emsp;- `Tab`(str); The name of the table to be created.<br>
     • Returns:<br>
-       &emsp;- `Count`(int); The number of entries in the incident table.<br>
+       &emsp;- `count`(int); The number of entries in the incident table.<br>
 
 8. `main(url)`:<br>
     • Description: <br>
@@ -146,9 +146,10 @@ The video is also available in the repository.
 
     3. Data Population(`PopulatedDB()` and `Insert()`:
         - The extracted incident data is inserted into the SQLite database usind `PopulatedDB()` function.
+        - Run an SQL command to check if the table already exists, if so delete the 'incidents' table and create a new table.
         - Queries are used to execute SQL statements for creating table and headers.
-        - For insertion INSERT statement is used.
-        - Implementing the INSERT command using the cursor.
+        - For insertion 'INSERT' statement is used.
+        - Implementing the 'INSERT' command using the cursor.
         - Each row of incident data corresponds to an entry in the database table.
 
     4. Data Status and Printing:
@@ -160,9 +161,6 @@ The video is also available in the repository.
     5. Command-line Interface:
         - The script can be executed from the command line.
         - Users provide the URL of the incident summary PDF file as a command-line argument.
-  
-    6. Delete and Create new table
-        - Run an SQL command to delete the 'incidents' table if it's already exists and create a new table
         
 
 Below is a brief overview on how to establish connection, take data, make table, insert, query and close the connection to database:
@@ -213,9 +211,9 @@ Testing using pytest & mocking is done to make sure that all the functions are w
 • A large PDF files or a high volume of data exceeding system memory or processing limits, can lead to performance degradation or application crashes.<br>
 • Not all columns of a row can be empty at the same time. There should be some entry in atleast one cell of every row.<br>
 • All fields, excluding the 'Nature' field will consist of alphanumeric characters.<br>
-• Assuming that empty entries are only possible in the 'Nature' column. If there are empty entries in any other column it might break the extraction.
-• Known bug: Some pdfs that have unsual formatting are not able to parse. 
-• If there are multiple lines in a single cell, then only the first line will be parsed. There is no such cases where the 'Nature' column had multiple lines of text. So, it was not tested. But, if it has, this can be a potential bug.
+• Assuming that empty entries are only possible in the 'Nature' column. If there are empty entries in any other column it might break the extraction.<br>
+• Known bug: Some pdfs that have unsual formatting are not able to parse.<br> 
+• If there are multiple lines in a single cell, then only the first line will be parsed. There is no such cases where the 'Nature' column had multiple lines of text. So, it was not tested. But, if it has, this can be a potential bug.<br>
 • No bugs apart from those mentioned above are known/identified.
 
 
