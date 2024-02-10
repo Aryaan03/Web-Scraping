@@ -31,7 +31,6 @@ python assignment0/main.py --incidents "<url>"
 For testing use command:
 ```
 python -m unittest .\tests\test_download.py
-
 ```
 
 ## Demo Implementation 
