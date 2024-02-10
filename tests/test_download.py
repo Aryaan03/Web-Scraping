@@ -29,16 +29,15 @@ class TestReterieve(unittest.TestCase):
         
     @patch('pypdf.PdfReader')
     def test_Extraction(me, check):
-        """Verify whether the text has been accurately extracted from the pages of the PDF document."""
+        """Is Assignment 0 verfied for extracting text properly and independently"""
         # Setting up mocked PDFReader object and its return values for text extraction
-        IncidentData = b'Table Information' 
-        exp = "\nData from 1st Page\nData from 2nd Page"
+        IncidentData = b'Tablular Information' 
+        exp = "\nData from A\nData from B"
 
         Dummy1 = unittest.mock.MagicMock()
-        Dummy1.extract_text.return_value = "Data from 1st Page"
-
+        Dummy1.extract_text.return_value = "Data from A"
         Dummy2 = unittest.mock.MagicMock()
-        Dummy2.extract_text.return_value = "Data from 2nd Page"
+        Dummy2.extract_text.return_value = "Data from B"
 
         check.return_value.pages = [Dummy1, Dummy2]
         
@@ -50,8 +49,8 @@ class TestReterieve(unittest.TestCase):
     def test_Create(me, dum):
 
         # Testing the creation of a database table
-        Norman= 'test_database.db'
-        Tab = 'test_table'
+        Norman= 'check.db'
+        Tab = 'verify'
         Header = 'incident_time TEXT, incident_number TEXT, incident_location TEXT, nature TEXT, incident_ori TEXT'
 
         assignment0.CreateDB(Norman, Tab, Header)
@@ -75,12 +74,12 @@ class TestReterieve(unittest.TestCase):
         
     @patch('sqlite3.connect')
     def test_Populate(self, dum):
-        Norman = 'checkdb.db'
-        Tab = 'checktab'
+        Norman = 'check.db'
+        Tab = 'verify'
         # Data to be inserted into the database
         Line = [
-            ['incident_time56', 'incident_number56', 'incident_location56', 'nature56', 'incident_ori56'],
-            ['incident_time78', 'incident_number78', 'incident_location78', 'nature78', 'incident_ori78']
+            ['6/2/2024', 'id56', '4000 BLVD, Gnv, FL 32608', 'Big', 'Reitz'],
+            ['2/2/2024', 'id78', 'Stonridge 38th Street, Gnv, FL 32608', 'Small', 'Hallway']
         ]
 
         assignment0.PopulateDB(Norman, Tab, Line)
@@ -102,11 +101,11 @@ class TestReterieve(unittest.TestCase):
         
     @patch('sqlite3.connect')
     def test_Status(me, dum):
-        """Verify if the status function accurately displays the appropriate nature and count."""
-        Norman = 'checkdb.db'
-        Tab = 'checktab'
+        """Is Assignment 0 verfied for calculating and printing nature properly and independently"""
+        Norman = 'check.db'
+        Tab = 'verify'
         # Sample output data from the database
-        out = [('nature8', 89), ('nature45', 56)]
+        out = [('Fight', 89), ('Hit and Run', 56)]
 
         lat = dum.return_value.cursor.return_value # Get the cursor object from the database connection
         lat.fetchall.return_value = out # Mock the fetchall method to return sample output data
@@ -120,7 +119,7 @@ class TestReterieve(unittest.TestCase):
 
         sys.stdout = sys.__stdout__
 
-        look = "nature8|89\nnature45|56\n"
+        look = "Fight|89\nHit and Run|56\n"
 
         # Assert that the printed output matches the expected output
         me.assertEqual(og.getvalue(), look)
