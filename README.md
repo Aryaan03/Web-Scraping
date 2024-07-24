@@ -1,18 +1,15 @@
-# CIS6930sp24 -- Assignment0
-
-Name: Aryaan Shaikh <br>
-Student ID: 3020-2476
+# Web Scraping
 
 ## Contact
-
+Name: Aryaan Shaikh <br>
 Email - am.shaikh@ufl.edu <br>
-Project Link: https://github.com/Aryaan03/cis6930sp24-assignment0
+Project Link: https://github.com/Aryaan03/Web-Scraping
 
 
 ## Assignment Description
-This is the 1st project assignment for the CIS6930 Data Engineering course. The main aim of this assignment is to practice precise extraction of data from an online source, reformatting it and storing it in a SQLite database. The expected outcome of this assignment is to print a list of incidents with a selected columnar entity from the source document along with the number of times the incident has occurred. More specifically, this assignment involves extracting incident data from PDF files provided by the Norman, Oklahoma police department's webiste [link](https://www.normanok.gov/public-safety/police-department/crime-prevention-data/department-activity-reports). The incident data like Date/Time, Incident Number, Location, Nature, Incident ORI should be extracted from the pdf file and stored into a SQLite database according to their respective fields. Resulting output should be a list of all the incidents in the 'Nature' field (example: Fight, Stroke, Hit and Run, etc) and should be sorted by the total number of incidents (descending) and printed in alphabetical order along with the number of times it has happened separated by the pipe character. (example: Hit and Run|7). <br> 
+In this project the main aim is to practice precise extraction of data from an online source, reformatting it and storing it in a SQLite database. The expected outcome of this project is to print a list of incidents with a selected columnar entity from the source document along with the number of times the incident has occurred. More specifically, this project involves extracting incident data from PDF files provided by the Norman, Oklahoma police department's webiste [link](https://www.normanok.gov/public-safety/police-department/crime-prevention-data/department-activity-reports). The incident data like Date/Time, Incident Number, Location, Nature, Incident ORI should be extracted from the pdf file and stored into a SQLite database according to their respective fields. Resulting output should be a list of all the incidents in the 'Nature' field (example: Fight, Stroke, Hit and Run, etc) and should be sorted by the total number of incidents (descending) and printed in alphabetical order along with the number of times it has happened separated by the pipe character. (example: Hit and Run|7). <br> 
 
-This assignment underscores the importance of data extraction in the data engineering domain, as it lays the groundwork for understanding how to manipulate and organize raw data for analysis and interpretation. By categorizing incidents, students gain insight into how data can be structured and utilized effectively. This assignment serves as a foundational step toward mastering the multifaceted skills essential in data engineering, encompassing data collection, validation, storage, security, and processing to ensure data accessibility, reliability, and timeliness for end-users. To Conclude, this is a great assignment to kick start our Data Engineering course and has helped us to learn more about extracting, loading and formatting of data.<br>
+This Project underscores the importance of data extraction in the data engineering domain, as it lays the groundwork for understanding how to manipulate and organize raw data for analysis and interpretation. By categorizing incidents, we can gain insight into how data can be structured and utilized effectively. This project serves as a foundational step toward mastering the multifaceted skills essential in data engineering, encompassing data collection, validation, storage, security, and processing to ensure data accessibility, reliability, and timeliness for end-users. To Conclude, this is a great project to kick start our Data Engineering learning and can help mastering extracting, loading and formatting of data.<br>
 
 ## How to install
 ```
@@ -22,21 +19,21 @@ pipenv install
 ## How to run
 Project can be run by using any of the given commands:
 ```
-pipenv run python assignment0/main.py --incidents "<url>"
+pipenv run python web/main.py --incidents "<url>"
 ```
 ```
-python assignment0/main.py --incidents "<url>"
+python web/main.py --incidents "<url>"
 ```
 
 For testing use command:
 ```
-python -m unittest .\tests\test_download.py
+python -m unittest .\tests\test_all_functions.py
 ```
 
 ## Demo Implementation 
 
-video link: [Data Engineering Assignment0 demo](https://github.com/Aryaan03/cis6930sp24-assignment0/blob/main/DE-A0_demo.mp4) <br>
-![](https://github.com/Aryaan03/cis6930sp24-assignment0/blob/main/DE-A0_demo.gif)
+video link: [Project demo](https://github.com/Aryaan03/Web-Scraping/blob/main/DE-A0_demo.mp4) <br>
+![](https://github.com/Aryaan03/Web-Scraping/blob/main/DE-A0_demo.gif)
 The video is also available in the repository.
 
 ## Functions
@@ -228,7 +225,7 @@ This project is licensed by Aryaan Shaikh©2024.
 
 ## Acknowledgments
 
-• [Christan Grant](https://github.com/cegme)- Providing the problem Statement <br>
-• [Yifan Wang](https://github.com/wyfunique)- Testing our code<br>
-• [Pipenv: Python Dev Workflow for Humans](https://pipenv.pypa.io/en/latest/)- Helped me in Installing Pipenv <br>
-• [Extract Text from a PDF](https://pypdf.readthedocs.io/en/latest/user/extract-text.html)- Helped me in extracting text in a fixed width format and changing cells<br>
+• [Christan Grant](https://ceg.me/) ([GitHub](https://github.com/cegme))- Providing the problem Statement for Project<br>
+• [Yifan Wang](https://github.com/wyfunique)- Testing my code<br>
+• [Pipenv: Python Dev Workflow for Humans](https://pipenv.pypa.io/en/latest/)- Installing Pipenv <br>
+• [Extract Text from a PDF](https://pypdf.readthedocs.io/en/latest/user/extract-text.html)- Extracting text in a fixed width format and changing cells<br>
