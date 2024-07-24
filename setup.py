@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-	name='assignment0',
+	name='Web Scraping',
 	version='1.0',
 	author='Aryaan Shaikh',
 	author_email='am.shaikh@ufl.edu',
