@@ -1,6 +1,6 @@
 import unittest
 import io
-import assignment0.main as assignment0
+import web.main as web
 import sys
 from unittest.mock import Mock, patch
 
@@ -17,7 +17,7 @@ class TestReterieve(unittest.TestCase):
         # Mock the return value of the read function of the urlopen object
 
         url = 'https://www.normanok.gov/sites/default/files/documents/2024-02/2024-02-04_daily_incident_summary.pdf'
-        out = assignment0.RetrieveIncidents(url)
+        out = web.RetrieveIncidents(url)
 
         # Verifying if urlopen was called with the provided URL and headers
         ask.assert_called_once_with(url, headers={'User-Agent': "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17"})
@@ -29,7 +29,7 @@ class TestReterieve(unittest.TestCase):
         
     @patch('pypdf.PdfReader')
     def test_Extraction(me, check):
-        """Is Assignment 0 verfied for extracting text properly and independently"""
+        """Is the Projct verfied for extracting text properly and independently"""
         # Setting up mocked PDFReader object and its return values for text extraction
         IncidentData = b'Tablular Information' 
         exp = "\nData from A\nData from B"
@@ -42,7 +42,7 @@ class TestReterieve(unittest.TestCase):
         check.return_value.pages = [Dummy1, Dummy2]
         
         # Calling ExtractData and comparing the output with expected text
-        og = assignment0.ExractData(IncidentData)
+        og = web.ExractData(IncidentData)
         me.assertEqual(og, exp)
     
     @patch('sqlite3.connect')
@@ -53,7 +53,7 @@ class TestReterieve(unittest.TestCase):
         Tab = 'verify'
         Header = 'incident_time TEXT, incident_number TEXT, incident_location TEXT, nature TEXT, incident_ori TEXT'
 
-        assignment0.CreateDB(Norman, Tab, Header)
+        web.CreateDB(Norman, Tab, Header)
 
         # Verifying if the connection to the database was established
         dum.assert_called_once_with(Norman)
@@ -82,7 +82,7 @@ class TestReterieve(unittest.TestCase):
             ['2/2/2024', 'id78', 'Stonridge 38th Street, Gnv, FL 32608', 'Small', 'Hallway']
         ]
 
-        assignment0.PopulateDB(Norman, Tab, Line)
+        web.PopulateDB(Norman, Tab, Line)
 
         lat = dum.return_value
         # Get the cursor object from the database connection
@@ -101,7 +101,7 @@ class TestReterieve(unittest.TestCase):
         
     @patch('sqlite3.connect')
     def test_Status(me, dum):
-        """Is Assignment 0 verfied for calculating and printing nature properly and independently"""
+        """Is the Project verfied for calculating and printing nature properly and independently"""
         Norman = 'check.db'
         Tab = 'verify'
         # Sample output data from the database
@@ -115,7 +115,7 @@ class TestReterieve(unittest.TestCase):
         sys.stdout = og
 
         # Call the function under test
-        assignment0.Status(Norman, Tab)
+        web.Status(Norman, Tab)
 
         sys.stdout = sys.__stdout__
 
